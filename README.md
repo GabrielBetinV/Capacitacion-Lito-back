@@ -78,3 +78,25 @@ https://insomnia.rest/download
 
 ## Instalar Nest Js Snippets
 Vscode NestJs Snippets
+
+
+## Peticiones HTTP
+
+https://developer.mozilla.org/es/docs/Web/HTTP/Overview
+
+## Protocolo Web Socket
+
+https://developer.mozilla.org/es/docs/Web/API/WebSocket
+
+## APIs
+
+https://developer.mozilla.org/es/docs/Learn/JavaScript/Client-side_web_APIs/Introduction
+
+
+## Tareas => Inyeccion de dependencias e inversion de dependencias
+
+https://es.wikipedia.org/wiki/Principio_de_inversi%C3%B3n_de_la_dependencia
+
+https://www.campusmvp.es/recursos/post/que-es-la-inyeccion-de-dependencias-y-como-funciona.aspx
+
+
