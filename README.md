@@ -101,4 +101,59 @@ https://www.campusmvp.es/recursos/post/que-es-la-inyeccion-de-dependencias-y-com
 
 
 
+## Repositorio del profe.
+
+https://github.com/patacala/litoplas-api-MVP/tree/main
+
+## Instalar class validator y class transform
+
+npm i --save class-validator class-transformer
+
+https://docs.nestjs.com/techniques/validation
+
+## Agregar el validatorpipe en el main
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
+  await app.listen(3000);
+}
+bootstrap();
+
+
+## Types de validarotor
+
+https://github.com/typestack/class-validator#validation-decorators
+
+## Agregar las validaciones en el DTO
+
+import { IsEmail, IsString ,IsNumberString, IsOptional} from 'class-validator';
+import { User, USER_ROLE } from '../entity/user.entity';
+
+
+export class CreateUserDto{
+
+
+    @IsString()
+    name: string;
+
+    @IsEmail()
+    email: string;
+
+
+    @IsNumberString()
+    phone:number;
+    
+    @IsString()
+    @IsOptional()
+    role: USER_ROLE;
+
+
+
+}
+
 
