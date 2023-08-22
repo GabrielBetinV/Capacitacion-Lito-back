@@ -157,3 +157,77 @@ export class CreateUserDto{
 }
 
 
+## Instalar Docker
+https://docs.docker.com/desktop/install/windows-install/
+
+## Instalar ORM
+npm i typeorm pg @nestjs/typeorm => Postgres
+
+<!-- npm i typeorm pg @nestjs/typeorm  - npm install oracledb --save -->
+
+## Kernel WSL
+https://docs.microsoft.com/windows/wsl/wsl2-kernel
+
+## Configurar Docker 
+
+
+version: "3.7"
+
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: my-weak-password
+    volumes:
+     - /var/lib/postgresql/data  
+    ports:
+      - "5432:5432" 
+
+
+## Levantar el docker
+docker-compose up -d
+
+## Consltar la cantidad de  imagenes
+docker ps
+
+## Agregar un administrador para pg
+
+version: "3.7"
+
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: my-weak-password
+    volumes:
+     - /var/lib/postgresql/data  
+    ports:
+      - "5432:5432" 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgAdmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@litoplas.com  
+      PGADMIN_DEFAULT_PASSWORD: my-weak-password
+      PGADMIN_LISTEN: 80
+    ports:
+     - 8080:80
+    volumes:
+     - /var/lib/pgadmin 
+    depends_on:
+     - db 
+      
+
+
+## Ingresar a la base de datos
+http://localhost:8080/browser/
+
