@@ -231,3 +231,99 @@ services:
 ## Ingresar a la base de datos
 http://localhost:8080/browser/
 
+
+## Agregar conexion en el app module
+
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UserModule } from './user/user.module';
+import { PermissionModule } from './permission/permission.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+@Module({
+  // imports: [UsersModule],
+  // controllers: [AppController],
+  // providers: [AppService],
+
+  imports: [
+    UserModule,
+     PermissionModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'admin',
+      password: 'my-weak-password',
+      database: 'postgres',
+      autoLoadEntities: true,
+      synchronize: true // NO COLOCAR EN PRODUCCION
+    })],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+
+
+## Colocar las entity en las propiedades de la entidades
+
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
+// ENUM, para los tipos de roles
+export enum USER_ROLE {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  ROOT = 'ROOT',
+}
+
+
+// Agregar el decorador entity para que se entienda en la base de datos
+@Entity()
+export class User {
+
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+
+  @Column({
+    nullable: false,
+
+  })
+  name: string;
+
+  @Column({
+    nullable: false,
+    
+  })
+  email: string;
+
+  @Column({
+    nullable: false,
+    
+  })
+  phone: number;
+
+  @Column({
+    nullable: false,
+    
+  })
+  role: USER_ROLE;
+}
+
+
+## Agregar la entidad en el user module
+
+mport { Module } from '@nestjs/common';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entity/user.entity';
+
+@Module({
+  controllers: [UserController],
+  providers: [UserService],
+  imports: [TypeOrmModule.forFeature([
+    User
+  ])]
+})
+export class UserModule {}
+
