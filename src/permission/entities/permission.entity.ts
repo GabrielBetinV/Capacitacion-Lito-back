@@ -31,7 +31,11 @@ export class Permission {
     //     this.id = tihs.name;
     // }
 
-  
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updateAt: Date;
 
 }
 

@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsNumberString, IsOptional } from 'class-validator';
+import { IsEmail, IsString, IsNumberString, IsOptional, IsBoolean } from 'class-validator';
 
 export class CreatePermissionDto {
 
@@ -9,7 +9,9 @@ export class CreatePermissionDto {
     description: string;
 
 
-    @IsString()
-    isActive: string;
+    @IsBoolean()
+    isActive: boolean;
 
+
+    
 }

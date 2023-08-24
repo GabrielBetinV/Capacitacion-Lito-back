@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, BadRequestException, HttpStatus, Put } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
@@ -9,12 +9,38 @@ export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
 
-
-
   @Get()
-  getPermissions(): Permission[] {
+  getPermissions():  Promise<Permission[]> {
     return this.permissionService.getPermissions();
   }
+
+  @Post()
+  addPermission(@Body() body: CreatePermissionDto): Promise<Permission>  {
+    return this.permissionService.createPermission(body);
+  }
+
+  @Put('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT) // Enviar un codigo de respuesta especifico , en este caso 204
+  updatePermission(@Body() body: CreatePermissionDto, @Param('id') id: number):  Promise<Permission> {
+    const Permission = this.permissionService.getPermissionById(id);
+    if (!Permission) throw new BadRequestException('Permission not found'); // Lanzamos un error
+
+    return this.permissionService.updatePermission(id, body);
+  }
+
+  @Delete('/:id')
+  async deletePermission(@Param('id') id: number): Promise<string> {
+   await  this.permissionService.deletePermission(id);
+   return 'Permiso Eliminado';
+  }
+
+
+
+
+  // @Get()
+  // getPermissions(): Permission[] {
+  //   return this.permissionService.getPermissions();
+  // }
 
 
   
