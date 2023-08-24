@@ -11,6 +11,7 @@ export class PermissionService {
   // Array para tener almacenado los usuarios
   permissions: Permission[] = [
     {
+      id: 11,
       name: 'user',
       description: 'user acces',
       isActive: true 

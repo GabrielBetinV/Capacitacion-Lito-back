@@ -18,7 +18,11 @@ constructor(
 
   
   async getUsers(): Promise<User[]> {        
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+
+      // Para mostrar los permisos en el GET
+      relations:['permissions']
+    });
   }
 
 
@@ -31,12 +35,12 @@ constructor(
 
   async createUser(data: CreateUserDto): Promise<User> {
 
-       //Crea el objeto en memoria
+    //Crea el objeto en memoria
     const user: User = this.userRepository.create(data);
 
 
     // Guardar en la bse de datos  
-     return  await this.userRepository.save(user);
+    return  await this.userRepository.save(user);
   }
 
 

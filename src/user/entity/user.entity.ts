@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Permission } from "src/permission/entities/permission.entity";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 // ENUM, para los tipos de roles
 export enum USER_ROLE {
@@ -23,19 +24,21 @@ export class User {
 
   @Column({
     nullable: false,
-    
+    type: 'varchar',
+    length: 150,
+    unique: true
   })
   email: string;
 
   @Column({
-    nullable: true,
-    
+    nullable: false,
+
   })
   phone: string;
 
   @Column({
     nullable: false,
-    
+
   })
   role: USER_ROLE;
 
@@ -44,6 +47,25 @@ export class User {
 
   @UpdateDateColumn()
   updateAt: Date;
+
+
+  // RELACION DE LAS TABLAS
+  @ManyToMany(type => Permission)
+  
+  // CREA UNA TABLA QUE UNIRA LAS TABLAS RELACIONADA
+  @JoinTable({
+    name: 'user_permission',
+    joinColumn: {
+      name: 'user',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'permissoin',
+      referencedColumnName: 'id'
+    }
+  })
+  permissions: Permission[];
+
 }
 
 
