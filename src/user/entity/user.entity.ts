@@ -1,3 +1,5 @@
+import { Iuser } from "src/interfaces/user.interface";
+import { BaseEntity } from "../../config/base.entity";
 import { Permission } from "src/permission/entities/permission.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -11,10 +13,10 @@ export enum USER_ROLE {
 
 // Agregar el decorador entity para que se entienda en la base de datos
 @Entity()
-export class User {
+export class User extends BaseEntity implements Iuser {
 
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  // @PrimaryGeneratedColumn('increment')
+  // id: number;
 
   @Column({
     nullable: false,
@@ -42,11 +44,11 @@ export class User {
   })
   role: USER_ROLE;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  // @CreateDateColumn()
+  // createdAt: Date;
 
-  @UpdateDateColumn()
-  updateAt: Date;
+  // @UpdateDateColumn()
+  // updateAt: Date;
 
 
   // RELACION DE LAS TABLAS

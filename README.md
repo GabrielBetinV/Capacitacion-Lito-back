@@ -327,3 +327,44 @@ import { User } from './entity/user.entity';
 })
 export class UserModule {}
 
+## Documentacion de swagger
+
+https://docs.nestjs.com/openapi/introduction
+
+
+
+## Instalar swagger
+npm install --save @nestjs/swagger
+
+
+
+## Instalar nestjs config para las variables de entorno
+
+npm i --save @nestjs/config
+
+## Instalar Morgan, para loggear las request que estan entrando
+
+npm i morgan
+
+## INstalar el tipado para el morgan
+
+npm i --save-dev @types/morgan
+
+
+## Agregar el morgan en el main
+
+app.use(morgan('dev'))
+
+## Crear las variables de entorno para la configuracion
+
+envFilePath: `.dev.env`
+
+Sedebe colocar asi para que sea dinamcico
+
+ envFilePath: `${process.env.NODE_ENV}.env`
+
+ ## INstaar estrategia de nombrado para las migraciones
+
+ npm i typeorm-naming-strategies
+
+ 

@@ -13,7 +13,10 @@ import {
 import { UserService } from './user.service';
 import { User, USER_ROLE } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+
+@ApiTags('Users')
 @Controller('users')
 export class UserController {
   // Inyectar el servicio
@@ -26,11 +29,15 @@ export class UserController {
   }
 
   @Post()
+  //@ApiBody([{name: 'role', enum: USER_ROLE}])
+  @ApiResponse({status: 200, description: 'User created'})
   adduser(@Body() body: CreateUserDto): Promise<User>  {
     return this._userService.createUser(body);
   }
 
   @Put('/:id')
+  @ApiResponse({status: 200, description: 'User updated'})
+  @ApiResponse({status: 400, description: 'Resource not found'})
   @HttpCode(HttpStatus.NO_CONTENT) // Enviar un codigo de respuesta especifico , en este caso 204
   updateUser(@Body() body: CreateUserDto, @Param('id') id: number):  Promise<User> {
     const user = this._userService.getUserById(id);
