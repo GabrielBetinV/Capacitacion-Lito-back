@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User, USER_ROLE } from './entity/user.entity';
+import { User} from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { v4 as idGenerator } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';

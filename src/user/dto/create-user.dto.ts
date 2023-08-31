@@ -1,6 +1,8 @@
 import { IsEmail, IsString, IsNumberString, IsOptional } from 'class-validator';
-import { User, USER_ROLE } from '../entity/user.entity';
+import { User } from '../entity/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import {  USER_ROLE } from "src/interfaces/user.interface";
+
 
 export class CreateUserDto {
   @IsString()

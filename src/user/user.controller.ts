@@ -11,7 +11,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User, USER_ROLE } from './entity/user.entity';
+import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 

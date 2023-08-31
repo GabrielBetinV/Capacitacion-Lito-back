@@ -1,14 +1,9 @@
-import { Iuser } from "src/interfaces/user.interface";
+import { Iuser, USER_ROLE } from "../../interfaces/user.interface";
 import { BaseEntity } from "../../config/base.entity";
-import { Permission } from "src/permission/entities/permission.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Permission } from "../../permission/entities/permission.entity";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserPermissionEntity } from "./userPermission.entity";
 
-// ENUM, para los tipos de roles
-export enum USER_ROLE {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-  ROOT = 'ROOT',
-}
 
 
 // Agregar el decorador entity para que se entienda en la base de datos
@@ -44,6 +39,13 @@ export class User extends BaseEntity implements Iuser {
   })
   role: USER_ROLE;
 
+
+  @OneToMany( () => UserPermissionEntity, (userPermissionEntity) => userPermissionEntity.user)
+  userToPermissions: UserPermissionEntity[];
+
+
+
+
   // @CreateDateColumn()
   // createdAt: Date;
 
@@ -51,22 +53,25 @@ export class User extends BaseEntity implements Iuser {
   // updateAt: Date;
 
 
-  // RELACION DE LAS TABLAS
-  @ManyToMany(type => Permission)
+
+
+
+  // // RELACION DE LAS TABLAS
+  // @ManyToMany(type => Permission)
   
-  // CREA UNA TABLA QUE UNIRA LAS TABLAS RELACIONADA
-  @JoinTable({
-    name: 'user_permission',
-    joinColumn: {
-      name: 'user',
-      referencedColumnName: 'id'
-    },
-    inverseJoinColumn: {
-      name: 'permissoin',
-      referencedColumnName: 'id'
-    }
-  })
-  permissions: Permission[];
+  // // CREA UNA TABLA QUE UNIRA LAS TABLAS RELACIONADA
+  // @JoinTable({
+  //   name: 'user_permission',
+  //   joinColumn: {
+  //     name: 'user',
+  //     referencedColumnName: 'id'
+  //   },
+  //   inverseJoinColumn: {
+  //     name: 'permissoin',
+  //     referencedColumnName: 'id'
+  //   }
+  // })
+  // permissions: Permission[];
 
 }
 

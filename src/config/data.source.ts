@@ -4,8 +4,8 @@ import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 
 ConfigModule.forRoot({
-   // envFilePath: `${process.env.NODE_ENV}.env`
-    envFilePath: `.dev.env`
+    envFilePath: `.${process.env.NODE_ENV}.env`
+    //envFilePath: `.dev.env`
   });  
 
 // DB_HOST=localhost
@@ -14,7 +14,14 @@ ConfigModule.forRoot({
 // DB_PASSWORD=my-weak-password
 // DB_NAME=postgres
 
+console.log('Envi: ',process.env.NODE_ENV)
+
+
 const configService = new ConfigService();
+
+
+console.log('User: ',configService.get('DB_USER'))
+console.log('Pass: ',configService.get('DB_PASSWORD'))
 
 export const DataSourceConfig: DataSourceOptions = {
       type: 'postgres',
@@ -29,5 +36,7 @@ export const DataSourceConfig: DataSourceOptions = {
       migrationsRun: false,
       namingStrategy: new SnakeNamingStrategy()
 }
+
+
 
 export const AppDS =  new DataSource(DataSourceConfig) ; 

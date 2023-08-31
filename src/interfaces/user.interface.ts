@@ -1,4 +1,10 @@
-import { USER_ROLE } from "src/user/entity/user.entity";
+// ENUM, para los tipos de roles
+export enum USER_ROLE {
+    ADMIN = 'ADMIN',
+    USER = 'USER',
+    ROOT = 'ROOT',
+  }
+  
 
 
 export interface Iuser {        

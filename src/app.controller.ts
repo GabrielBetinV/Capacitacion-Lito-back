@@ -10,7 +10,7 @@ export class AppController {
   //1. req => Todo lo que vienen dentro de la peticion
   //2. res => la respuesta para el cliente (est.status(200).json("Hola mundo")
 
-  @Get('/users')
+  @Get('/usersApp')
   getHello(): any {
     return {
       name: 'Gabriel Betin',

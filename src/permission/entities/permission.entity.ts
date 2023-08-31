@@ -1,11 +1,14 @@
-import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity } from "../../config/base.entity";
+import { IPermission } from "../../interfaces/permission.interface";
+import { UserPermissionEntity } from "../../user/entity/userPermission.entity";
+import { BeforeInsert, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 
 @Entity()
-export class Permission {
+export class Permission extends BaseEntity  implements IPermission{
 
-    @PrimaryGeneratedColumn('increment')
-    id: number;
+    // @PrimaryGeneratedColumn('increment')
+    // id: number;
 
     @Column({
         nullable: false,
@@ -25,17 +28,24 @@ export class Permission {
     })
     isActive: boolean;
 
+
+    @OneToMany( () => UserPermissionEntity, (userPermissionEntity) => userPermissionEntity.permission)
+    userToPermissions: UserPermissionEntity[];
+
+
+
+
     // Acciones para realizar antes de un evento
     // @BeforeInsert()
     // private beforeInsert(){
     //     this.id = tihs.name;
     // }
 
-    @CreateDateColumn()
-    createdAt: Date;
+    // @CreateDateColumn()
+    // createdAt: Date;
 
-    @UpdateDateColumn()
-    updateAt: Date;
+    // @UpdateDateColumn()
+    // updateAt: Date;
 
 }
 
