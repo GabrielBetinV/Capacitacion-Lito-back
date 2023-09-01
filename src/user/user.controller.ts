@@ -14,6 +14,9 @@ import { UserService } from './user.service';
 import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserPermissionDto } from './dto/create-user-permission.dto';
+import { UserPermissionEntity } from './entity/user-permission.entity';
 
 
 @ApiTags('Users')
@@ -38,8 +41,8 @@ export class UserController {
   @Put('/:id')
   @ApiResponse({status: 200, description: 'User updated'})
   @ApiResponse({status: 400, description: 'Resource not found'})
-  @HttpCode(HttpStatus.NO_CONTENT) // Enviar un codigo de respuesta especifico , en este caso 204
-  updateUser(@Body() body: CreateUserDto, @Param('id') id: number):  Promise<User> {
+  //@HttpCode(HttpStatus.NO_CONTENT) // Enviar un codigo de respuesta especifico , en este caso 204
+  updateUser(@Body() body: UpdateUserDto, @Param('id') id: number):  Promise<User> {
     const user = this._userService.getUserById(id);
     if (!user) throw new BadRequestException('User not found'); // Lanzamos un error
 
@@ -85,4 +88,17 @@ export class UserController {
   //   this._userService.deleteUser(id);
   //   return 'Usuario Eliminado';
   // }
+
+
+
+  
+
+// User permission section
+
+@Post('create-user-permision')
+//@ApiBody([{name: 'role', enum: USER_ROLE}])
+@ApiResponse({status: 200, description: 'User permission created'})
+adduserPermission(@Body() body: CreateUserPermissionDto): Promise<UserPermissionEntity>  {
+  return this._userService.createUserPermission(body);
+}
 }

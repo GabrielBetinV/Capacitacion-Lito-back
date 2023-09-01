@@ -22,8 +22,8 @@ export class PermissionController {
   }
 
   @Put('/:id')
-  @HttpCode(HttpStatus.NO_CONTENT) // Enviar un codigo de respuesta especifico , en este caso 204
-  updatePermission(@Body() body: CreatePermissionDto, @Param('id') id: number):  Promise<Permission> {
+  //@HttpCode(HttpStatus.NO_CONTENT) // Enviar un codigo de respuesta especifico , en este caso 204
+  updatePermission(@Body() body: UpdatePermissionDto, @Param('id') id: number):  Promise<Permission> {
     const Permission = this.permissionService.getPermissionById(id);
     if (!Permission) throw new BadRequestException('Permission not found'); // Lanzamos un error
 

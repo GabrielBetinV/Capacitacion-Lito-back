@@ -4,16 +4,16 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreatePermissionDto {
 
     @IsString()
-    @ApiProperty()
+    @ApiProperty()   
     name: string;
 
     @IsString()
-    @ApiProperty()
+    @ApiProperty()   
     description: string;
 
 
     @IsBoolean()
-    @ApiProperty()
+    @ApiProperty()    
     isActive: boolean;
 
 

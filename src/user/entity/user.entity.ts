@@ -2,7 +2,7 @@ import { Iuser, USER_ROLE } from "../../interfaces/user.interface";
 import { BaseEntity } from "../../config/base.entity";
 import { Permission } from "../../permission/entities/permission.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { UserPermissionEntity } from "./userPermission.entity";
+import { UserPermissionEntity } from "./user-permission.entity";
 
 
 

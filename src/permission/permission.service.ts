@@ -20,11 +20,23 @@ export class PermissionService {
 
  
     async getPermissions(): Promise<Permission[]> {        
-      return await this.permissionRepository.find({
+      // return await this.permissionRepository.find({
   
-        // Para mostrar los permisos en el GET
-        relations:['permissions']
-      });
+      //   // Para mostrar los permisos en el GET
+      //   relations:['userToPermissions']
+      // });
+
+
+
+      const permission: Permission[] = await this.permissionRepository
+      .createQueryBuilder('permission')
+      .leftJoinAndSelect('permission.userToPermissions', 'userToPermissions')
+      .leftJoinAndSelect('userToPermissions.user','user')
+      .getMany();
+  
+      return permission;
+  
+
     }
   
   
@@ -46,7 +58,7 @@ export class PermissionService {
     }
   
   
-    async  updatePermission(id: number, data: CreatePermissionDto): Promise<Permission> {
+    async  updatePermission(id: number, data: UpdatePermissionDto): Promise<Permission> {
   
      // Buscar el objeto por el ID
      const existPermission = await this.getPermissionById(id);
@@ -60,7 +72,8 @@ export class PermissionService {
         ...data
       })
   
-      return permission;
+     // return permission;
+      return await this.permissionRepository.save(permission);
     }
   
   

@@ -4,6 +4,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { v4 as idGenerator } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserPermissionEntity } from './entity/user-permission.entity';
+import { CreateUserPermissionDto } from './dto/create-user-permission.dto';
 
 @Injectable()
 export class UserService {
@@ -12,17 +15,29 @@ constructor(
 
   @InjectRepository(User) 
   private readonly userRepository: Repository<User>,
+  
+  @InjectRepository(UserPermissionEntity) 
+  private readonly userPermissionRepository: Repository<UserPermissionEntity>,
 
   ){}
 
 
   
   async getUsers(): Promise<User[]> {        
-    return await this.userRepository.find({
+    // return await this.userRepository.find({
 
-      // Para mostrar los permisos en el GET
-      relations:['permissions']
-    });
+    //   // Para mostrar los permisos en el GET
+    //   relations:['userToPermissions']      
+    // });
+
+    const users: User[] = await this.userRepository
+    .createQueryBuilder('user')
+    .leftJoinAndSelect('user.userToPermissions', 'userToPermissions')
+    .leftJoinAndSelect('userToPermissions.permission','permission')
+    .getMany();
+
+    return users;
+
   }
 
 
@@ -44,7 +59,7 @@ constructor(
   }
 
 
-  async  updateUser(id: number, data: CreateUserDto): Promise<User> {
+  async  updateUser(id: number, data: UpdateUserDto): Promise<User> {
 
    // Buscar el objeto por el ID
    const existUser = await this.getUserById(id);
@@ -58,7 +73,8 @@ constructor(
       ...data
     })
 
-    return user;
+    //return user;
+    return await this.userRepository.save(user);
   }
 
 
@@ -133,4 +149,15 @@ constructor(
   //   const tempUsers = this.users.filter((user) => user.id !== id);
   //   this.users = tempUsers;
   // }
+
+
+
+
+// User permission section
+async createUserPermission(data: CreateUserPermissionDto): Promise<UserPermissionEntity> {
+    const userPermission: UserPermissionEntity = this.userPermissionRepository.create(data);
+  return  await this.userPermissionRepository.save(userPermission);
+}
+
+
 }
