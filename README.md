@@ -367,4 +367,22 @@ Sedebe colocar asi para que sea dinamcico
 
  npm i typeorm-naming-strategies
 
+
+
+## Passport
+
+https://www.passportjs.org/
+
+
+
+npm install --save @nestjs/passport passport passport-local
+
+npm install --save-dev @types/passport-local
+
+npm install --save @nestjs/jwt passport-jwt
+
+npm install --save-dev @types/passport-jwt
+
+
+ 
  

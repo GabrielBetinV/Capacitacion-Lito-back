@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, BadRequestException, HttpStatus, Put } from '@nestjs/common';
-import { PermissionService } from './permission.service';
-import { CreatePermissionDto } from './dto/create-permission.dto';
-import { UpdatePermissionDto } from './dto/update-permission.dto';
-import { Permission } from './entities/permission.entity';
+import { PermissionService } from '../services/permission.service';
+import { CreatePermissionDto } from '../dto/create-permission.dto';
+import { UpdatePermissionDto } from '../dto/update-permission.dto';
+import { Permission } from '../entities/permission.entity';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Permission')

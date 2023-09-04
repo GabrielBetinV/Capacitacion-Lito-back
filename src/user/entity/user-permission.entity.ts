@@ -3,7 +3,7 @@ import { User } from "./user.entity";
 import { Permission } from "../../permission/entities/permission.entity";
 import { Column, Entity, ManyToMany, ManyToOne } from "typeorm";
 
-@Entity()
+@Entity('user_permission')
 export class UserPermissionEntity  extends  BaseEntity{
 
     @Column()

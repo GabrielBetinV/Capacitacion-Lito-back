@@ -7,6 +7,10 @@ import { Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserPermissionEntity } from './entity/user-permission.entity';
 import { CreateUserPermissionDto } from './dto/create-user-permission.dto';
+import { randomPasswordGenerations } from 'src/utils/helper';
+import * as bcrypt from 'bcrypt';
+import { Iuser } from 'src/interfaces/user.interface';
+
 
 @Injectable()
 export class UserService {
@@ -19,7 +23,10 @@ constructor(
   @InjectRepository(UserPermissionEntity) 
   private readonly userPermissionRepository: Repository<UserPermissionEntity>,
 
-  ){}
+  ){
+
+    process.env
+  }
 
 
   
@@ -50,8 +57,16 @@ constructor(
 
   async createUser(data: CreateUserDto): Promise<User> {
 
+
+    const randomPassword = randomPasswordGenerations();
+    const hashedPassword = await bcrypt.hash(randomPassword,Number(process.env.HASH_SALT));
+
+    console.log(hashedPassword)
+
     //Crea el objeto en memoria
-    const user: User = this.userRepository.create(data);
+    const user: User = this.userRepository.create(data); 
+    user.password = hashedPassword;
+    
 
 
     // Guardar en la bse de datos  
@@ -87,6 +102,17 @@ constructor(
 
     this.userRepository.remove(user);
   }
+
+
+async getuserBY({key, value}: {key: keyof CreateUserDto, value: number | string}): Promise<Iuser> {
+
+  const user : Iuser = await this.userRepository.createQueryBuilder('user')
+   .where({[key]: value})
+   .getOne()
+
+   return user;
+}
+
 
 
   //-------------------------------------------------------------------------------

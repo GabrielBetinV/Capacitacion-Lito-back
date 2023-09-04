@@ -3,6 +3,7 @@ import { BaseEntity } from "../../config/base.entity";
 import { Permission } from "../../permission/entities/permission.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserPermissionEntity } from "./user-permission.entity";
+import { IsNotEmpty } from "class-validator";
 
 
 
@@ -19,6 +20,7 @@ export class User extends BaseEntity implements Iuser {
   })
   name: string;
 
+
   @Column({
     nullable: false,
     type: 'varchar',
@@ -27,11 +29,13 @@ export class User extends BaseEntity implements Iuser {
   })
   email: string;
 
+
   @Column({
     nullable: false,
 
   })
   phone: string;
+
 
   @Column({
     nullable: false,
@@ -39,8 +43,14 @@ export class User extends BaseEntity implements Iuser {
   })
   role: USER_ROLE;
 
+  @IsNotEmpty()
+  @Column({
+    nullable: true
+  })
+  password: string;
 
-  @OneToMany( () => UserPermissionEntity, (userPermissionEntity) => userPermissionEntity.user)
+
+  @OneToMany(() => UserPermissionEntity, (userPermissionEntity) => userPermissionEntity.user)
   userToPermissions: UserPermissionEntity[];
 
 
@@ -58,7 +68,7 @@ export class User extends BaseEntity implements Iuser {
 
   // // RELACION DE LAS TABLAS
   // @ManyToMany(type => Permission)
-  
+
   // // CREA UNA TABLA QUE UNIRA LAS TABLAS RELACIONADA
   // @JoinTable({
   //   name: 'user_permission',
