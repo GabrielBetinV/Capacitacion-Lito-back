@@ -1,19 +1,23 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as morgan from  'morgan';
+import * as morgan from 'morgan';
 import { ConfigService } from '@nestjs/config';
 import { CORS } from './constans';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-app.use(morgan('dev'))
+  const refelector = app.get(Reflector);
 
-app.setGlobalPrefix('api');
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(refelector));
 
-app.enableCors(CORS);
+  app.use(morgan('dev'))
+
+  app.setGlobalPrefix('api');
+
+  app.enableCors(CORS);
 
 
   app.useGlobalPipes(
@@ -34,7 +38,7 @@ app.enableCors(CORS);
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document, {
     explorer: true,
-    swaggerOptions:{
+    swaggerOptions: {
       filter: true,
       showRequestDuration: true
     }
@@ -43,33 +47,33 @@ app.enableCors(CORS);
 
 
   const config2 = new DocumentBuilder()
-  .setTitle('Litoplas Api V2')
-  .setDescription('This is our first doc for Litoplas Api')
-  .setVersion('2.0')
-  .addTag('Litoplas')
-  .build();
+    .setTitle('Litoplas Api V2')
+    .setDescription('This is our first doc for Litoplas Api')
+    .setVersion('2.0')
+    .addTag('Litoplas')
+    .build();
 
-const document2 = SwaggerModule.createDocument(app, config2);
-SwaggerModule.setup('api/docs/v2', app, document2, {
-  explorer: true,
-  swaggerOptions:{
-    filter: true,
-    showRequestDuration: true
-  }
-
-  
-});
-
-//  const configService = app.get(ConfigService);
-//  console.log(configService.get('PORT'))
-//   await app.listen(configService.get('PORT'));
+  const document2 = SwaggerModule.createDocument(app, config2);
+  SwaggerModule.setup('api/docs/v2', app, document2, {
+    explorer: true,
+    swaggerOptions: {
+      filter: true,
+      showRequestDuration: true
+    }
 
 
-console.log(process.env.PORT)
- await app.listen(process.env.PORT);
+  });
+
+  //  const configService = app.get(ConfigService);
+  //  console.log(configService.get('PORT'))
+  //   await app.listen(configService.get('PORT'));
 
 
-console.log(`Application running on: ${await app.getUrl()}`)
+  console.log(process.env.PORT)
+  await app.listen(process.env.PORT);
+
+
+  console.log(`Application running on: ${await app.getUrl()}`)
 
 }
 bootstrap();

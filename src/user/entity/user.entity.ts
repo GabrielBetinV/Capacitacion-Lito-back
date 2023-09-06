@@ -4,6 +4,7 @@ import { Permission } from "../../permission/entities/permission.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserPermissionEntity } from "./user-permission.entity";
 import { IsNotEmpty } from "class-validator";
+import { Exclude } from "class-transformer";
 
 
 
@@ -43,6 +44,7 @@ export class User extends BaseEntity implements Iuser {
   })
   role: USER_ROLE;
 
+  @Exclude()
   @IsNotEmpty()
   @Column({
     nullable: true

@@ -1,19 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { CreateAuthDto } from '../dto/create-auth.dto';
 import { UpdateAuthDto } from '../dto/update-auth.dto';
 import { Request } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly _authService: AuthService,
+    ) {}
 
 
+  @UseGuards(AuthGuard('local'))
   @Post('login')
   async Login(@Req() req: Request ){
     const user = req.user;
+    console.log(user);
 
     //Agregar JWT
+     return this._authService.generateJWT(user)
   }
 
 

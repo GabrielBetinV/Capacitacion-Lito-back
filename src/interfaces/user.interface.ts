@@ -11,5 +11,6 @@ export interface Iuser {
     name: string;
     email: string;
     phone: string;
+    password: string;
     role: USER_ROLE;
 }

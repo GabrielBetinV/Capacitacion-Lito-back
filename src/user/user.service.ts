@@ -61,6 +61,7 @@ constructor(
     const randomPassword = randomPasswordGenerations();
     const hashedPassword = await bcrypt.hash(randomPassword,Number(process.env.HASH_SALT));
 
+    console.log(randomPassword)
     console.log(hashedPassword)
 
     //Crea el objeto en memoria
